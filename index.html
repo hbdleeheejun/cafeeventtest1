@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lee Hee Jun Birthday Cafe</title>
+  <style>
+    body { margin:0; font-family:Pretendard, Arial, sans-serif; background:#fff; color:#000; }
+    a { color:inherit; text-decoration:none; }
+
+    /* HEADER */
+    header { position:sticky; top:0; z-index:10; background:#020617; display:flex; justify-content:space-between; align-items:center; padding:16px 24px; }
+    .logo { color:#fff; font-weight:700; font-size:20px; }
+    nav { display:flex; gap:24px; }
+    nav a { color:#fff; font-weight:600; }
+    nav a:hover { color:#60a5fa; }
+
+    /* BOOKING 섹션 레이아웃 (더 넓고 시원하게) */
+section#booking {
+      padding-top: 120px; /* 상단바 아래 여백 */
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .booking-wrap {
+      display: flex;
+      gap: 60px; /* 포스터와 정보 사이 간격 확대 */
+      align-items: flex-start;
+      justify-content: center;
+      max-width: 1100px; /* 전체 너비를 더 확장 */
+      margin: 0 auto;
+    }
+
+    /* 1구역: 왼쪽 포스터 (살짝 둥근 직사각형) */
+    .poster {
+      flex: 0 0 380px; /* 포스터 크기 약간 확대 */
+    }
+    .poster img {
+      width: 100%; height: 100%; object-fit: cover;
+      border-radius: 4px; /* 아주 살짝만 깎음 */
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: block;
+    }
+
+    /* 오른쪽 상세 구역 */
+    .booking-details {
+      flex: 1; display: flex;
+      flex-direction: column;
+      justify-content: space-between; /* 위아래로 꽉 채움 */
+    }
+
+    /* 2구역: 상단 제목 (자간 조정) */
+    .info-header {
+      padding-bottom: 15px;
+      border-bottom: 2px solid #222;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #24426b;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      border-radius: 4px; /* 배지도 살짝 둥글게 */
+      letter-spacing: 0.5px;
+    }
+    .info-header h3 {
+      margin: 0;
+      font-size: 28px;
+      letter-spacing: 1px; /* #0629 자간 넓힘 */
+      color: #000;
+      font-weight: 800;
+    }
+
+    /* 하단: 정보와 달력 분리 */
+    .info-body {
+      display: flex;
+      gap: 30px;
+      flex: 1;
+    }
+
+    /* 3구역: 정보 텍스트 */
+    .booking-info {
+      flex: 1;
+    }
+    .booking-info p {
+      margin: 18px 0;
+      font-size: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 12px;
+    }
+    .booking-info b {
+      width: 90px;
+      display: inline-block;
+      color: #666;
+    }
+
+    /* 4구역: 달력 구역 */
+    .calendar-side {
+      flex: 0 0 px;
+      background: #f8f9fa;
+      padding: 24px;
+      border-radius: 12px;
+    }
+    .calendar-box h4 {
+      margin: 0 0 20px 0;
+      font-size: 18px;
+      text-align: center;
+      font-weight: 700;
+    }
+    .calendar-box table {
+      width: 100%;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: inset 0 0 0 1px #eee;
+    }
+    .calendar-box th { padding-bottom: 12px; font-size: 13px; color: #999; }
+    .calendar-box td {
+      width: 38px;
+      height: 38px;
+      font-size: 15px;
+      text-align: center;
+    }
+    /* 강조 날짜 (27, 28, 29) */
+    .calendar-box td.active {
+      background: #24426b;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* 예매하기 버튼 */
+    .reserve-btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 18px;
+      font-size: 18px;
+      font-weight: 700;
+      background: #24426b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .reserve-btn:hover {
+      background: #1e3560;
+    }
+
+    /* TABS */
+    .tab-menu { display:flex; gap:24px; justify-content:center; border-bottom:1px solid #ccc; margin-bottom:16px; flex-wrap:wrap; }
+    .tab-item { cursor:pointer; font-weight:700; padding:8px 12px; color:#24426b; }
+    .tab-item.active { border-bottom:3px solid #24426b; }
+    .tab-content { display:none; padding:12px 0; }
+
+    /* CASTING */
+    .cast-list { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
+    .cast-card, .cast-card-main { cursor:pointer; }
+    .cast-card img, .cast-card-main img { border-radius:12px; width:100%; }
+
+    /* REVIEW */
+    #review-form { display:flex; flex-direction:column; gap:12px; margin-bottom:24px; max-width:600px; }
+    #review-form input, #review-form textarea { padding:8px; border-radius:8px; border:1px solid #ccc; width:100%; font-size:14px; }
+    #review-form button { width:150px; padding:10px; border:none; border-radius:8px; background:#24426b; color:#fff; font-weight:700; cursor:pointer; }
+    .review-item { border-bottom:1px solid #e0e0e0; padding:12px 0; }
+    .review-item strong { color:#24426b; }
+    .review-item p { margin:4px 0 0 0; }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8Cg9XNQa9TgIuisgodBRRwj0claMsSZs",
+      authDomain: "s0629-37912.firebaseapp.com",
+      projectId: "s0629-37912",
+      storageBucket: "s0629-37912.firebasestorage.app",
+      messagingSenderId: "114448367794",
+      appId: "1:114448367794:web:9102285b8d95ced4ba09ab",
+      measurementId: "G-K0D0W42RH7"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 후기 저장
+    window.submitReview = async function(){
+      const nickname = document.getElementById('review-nickname').value.trim();
+      const content = document.getElementById('review-content').value.trim();
+      if(!nickname||!content){alert("닉네임과 후기를 입력해주세요.");return;}
+      await addDoc(collection(db,"reviews"),{nickname, content, createdAt: serverTimestamp()});
+      document.getElementById('review-nickname').value='';
+      document.getElementById('review-content').value='';
+      loadReviews();
+    }
+
+    async function loadReviews(){
+      const list = document.getElementById('review-list');
+      list.innerHTML='';
+      const q = query(collection(db,"reviews"), orderBy("createdAt","desc"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(doc=>{
+        const data = doc.data();
+        const div = document.createElement('div');
+        div.className='review-item';
+        div.innerHTML=`<strong>${data.nickname}</strong><p>${data.content}</p>`;
+        list.appendChild(div);
+      });
+    }
+
+    // 탭 전환
+    window.showTab = function(index){
+      const tabs = document.querySelectorAll('.tab-item');
+      const contents = document.querySelectorAll('.tab-content');
+      tabs.forEach((t,i)=> t.classList.toggle('active', i===index));
+      contents.forEach((c,i)=> c.style.display = i===index ? 'block' : 'none');
+      if(index===5) loadReviews();
+    }
+
+    window.addEventListener('DOMContentLoaded', ()=> showTab(0));
+
+    // 모달 캐릭터 정보
+    const characters = {
+      leeheejun: { name:"이희준", info:[ {label:"생년월일",value:"1979-06-29"}, {label:"직장", value:"BH엔터테인먼트"}, {label:"전화번호", value:"010-xxxx-xxxx"} ] },
+      film1: { name:"천재용", info:[ {label:"작품", value:"드라마 [넝쿨째 굴러온 당신]"}, {label:"생년월일", value:"1980-01-01"} ] },
+      film2: { name:"이중엽", info:[ {label:"작품", value:"드라마 [키마이라]"}, {label:"생년월일", value:"1982-03-12"} ] },
+      film3: { name:"최대식", info:[ {label:"작품", value:"영화 [미옥]"}, {label:"생년월일", value:"1985-07-07"} ] },
+      film4: { name:"곽상천", info:[ {label:"작품", value:"영화 [남산의 부장들]"}, {label:"생년월일", value:"1990-11-23"} ] },
+      film5: { name:"무정한", info:[ {label:"작품", value:"드라마 [직장의 신]"}, {label:"생년월일", value:"1992-05-15"} ] }
+    };
+
+    window.openModal = function(id){
+      const modal=document.getElementById('modal');
+      const nameElem=document.getElementById('modal-name');
+      const tableBody=document.getElementById('modal-table').querySelector('tbody');
+      const char = characters[id];
+      if(!char) return;
+      nameElem.textContent = char.name;
+      tableBody.innerHTML='';
+      char.info.forEach(item=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td style="font-weight:700;padding:4px;width:40%;">${item.label}</td><td style="padding:4px;">${item.value}</td>`;
+        tableBody.appendChild(tr);
+      });
+      modal.style.display='flex';
+    }
+
+    window.closeModal = function(){ document.getElementById('modal').style.display='none'; }
+
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="logo">SCENE #0629</div>
+  <nav>
+    <a href="#booking">예매</a>
+    <a href="#notice">공지</a>
+    <a href="#gift">특전</a>
+    <a href="#staff">협력진</a>
+    <a href="#map">오시는 길</a>
+    <a href="#reviews">후기</a>
+  </nav>
+</header>
+
+<section id="booking">
+  <h2 style="max-width: 1100px; margin: 0 auto 40px auto; font-size: 32px;">예매</h2>
+  
+  <div class="booking-wrap">
+    <div class="poster">
+      <img src="poster.jpg" alt="포스터">
+    </div>
+
+    <div class="booking-details">
+      <div class="info-header">
+        <span class="badge">단독판매</span>
+        <h3>SCENE #0629</h3>
+      </div>
+
+      <div class="info-body">
+        <div class="booking-info">
+          <p><b>장소</b> 카페 지구캣</p>
+          <p><b>기간</b> 2026.06.27 ~ 06.29</p>
+          <p><b>관람시간</b> 공지 확인</p>
+          <p><b>관람등급</b> 전체관람가</p>
+        </div>
+
+        <div class="calendar-side">
+          <div class="calendar-box">
+            <h4>2026.06</h4>
+            <table>
+              <tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>
+              <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+              <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+              <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+              <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td class="active">27</td></tr>
+              <tr><td class="active">28</td><td class="active">29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
+            </table>
+          </div>
+          <a href="seat.html"><button class="reserve-btn">예매하기</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TABS -->
+<div id="info-tabs" style="max-width:1200px; margin:24px auto;">
+  <div class="tab-menu">
+    <span class="tab-item" onclick="showTab(0)">상세 정보</span>
+    <span class="tab-item" onclick="showTab(1)">캐스팅</span>
+    <span class="tab-item" onclick="showTab(2)">특전</span>
+    <span class="tab-item" onclick="showTab(3)">협력진</span>
+    <span class="tab-item" onclick="showTab(4)">오시는 길</span>
+    <span class="tab-item" onclick="showTab(5)">기대평/후기</span>
+  </div>
+
+  <div class="tab-contents">
+    <!-- 상세 정보 -->
+    <div class="tab-content">
+      <p>상세 정보</p>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:12px;">
+        <img src="notice1.jpg" alt="사진1" style="width:48%; border-radius:12px;">
+        <img src="notice2.jpg" alt="사진2" style="width:48%; border-radius:12px;">
+      </div>
+    </div>
+
+    <!-- 캐스팅 -->
+    <div class="tab-content">
+      <div id="casting-tab" style="text-align:center; padding:24px;">
+        <!-- 이희준 중앙 -->
+        <div class="cast-card-main" onclick="openModal('leeheejun')" style="display:inline-block; margin-bottom:24px; cursor:pointer;">
+          <img src="heejoon.jpg" alt="이희준" style="width:200px; border-radius:12px;">
+          <p style="margin-top:8px; font-weight:700; font-size:18px;">이희준</p>
+        </div>
+        <!-- 필모 캐릭터들 -->
+        <div class="cast-list">
+          <div class="cast-card" onclick="openModal('film1')" style="width:18%;"><img src="film1.jpg" alt="영화1"><p>영화1</p></div>
+          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
+          <div class="cast-card" onclick="openModal('film3')" style="width:18%;"><img src="film3.jpg" alt="영화3"><p>영화3</p></div>
+          <div class="cast-card" onclick="openModal('film4')" style="width:18%;"><img src="film4.jpg" alt="영화4"><p>영화4</p></div>
+          <div class="cast-card" onclick="openModal('film5')" style="width:18%;"><img src="film5.jpg" alt="영화5"><p>영화5</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 특전 -->
+    <div class="tab-content"><p>특전 내용이 들어갑니다.</p></div>
+
+    <!-- 협력진 -->
+    <div class="tab-content"><p>협력진 정보가 들어갑니다.</p></div>
+
+    <!-- 오시는 길 -->
+    <div class="tab-content"><p>오시는 길 안내 내용이 들어갑니다.</p></div>
+
+    <!-- 후기 -->
+    <div class="tab-content">
+      <h3>기대평 / 후기</h3>
+      <form id="review-form" onsubmit="event.preventDefault(); submitReview();">
+        <input type="text" id="review-nickname" placeholder="닉네임 입력" />
+        <textarea id="review-content" rows="4" placeholder="후기를 작성해주세요."></textarea>
+        <button type="submit">후기 남기기</button>
+      </form>
+      <div id="review-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:#fff; padding:24px; border-radius:12px; max-width:500px; width:90%; position:relative;">
+    <button onclick="closeModal()" style="position:absolute; top:8px; right:8px; border:none; background:none; font-size:18px; cursor:pointer;">✖</button>
+    <h3 id="modal-name"></h3>
+    <table id="modal-table" style="width:100%; margin-top:12px; border-collapse:collapse;"><tbody></tbody></table>
+  </div>
+</div>
+
+</body>
+</html>  
