@@ -169,6 +169,72 @@ section#booking {
     .review-item { border-bottom:1px solid #e0e0e0; padding:12px 0; }
     .review-item strong { color:#24426b; }
     .review-item p { margin:4px 0 0 0; }
+
+/* 모바일 최적화: 화면 너비가 768px 이하일 때 적용됩니다 */
+    @media (max-width: 768px) {
+      /* 상단 여백 조절 */
+      section { padding: 40px 16px; }
+      section#booking { padding-top: 80px; }
+
+      /* 가로로 나열되던 요소들을 세로로 쌓기 */
+      .booking-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+      }
+
+      /* 포스터 크기 조절 */
+      .poster {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
+      }
+
+      /* 정보창 너비 조절 */
+      .booking-details {
+        width: 100%;
+      }
+
+      /* 정보와 달력을 세로로 배치 */
+      .info-body {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .booking-info {
+        flex: none;
+        width: 100%;
+      }
+
+      /* 달력 배경 박스 너비 조절 */
+      .calendar-side {
+        flex: none;
+        width: auto;
+        padding: 15px;
+      }
+
+      /* 인터파크 모바일처럼 예매 버튼을 화면 하단에 고정 */
+      .reserve-btn {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 0;
+        margin-top: 0;
+        z-index: 1000;
+        padding: 20px;
+        font-size: 18px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      }
+      
+      /* 버튼에 가려지는 내용이 없도록 바닥 여백 추가 */
+      body { padding-bottom: 80px; }
+
+      /* 탭 메뉴가 깨지지 않게 간격 조절 */
+      .tab-menu { gap: 10px; }
+      .tab-item { font-size: 14px; padding: 6px; }
+    }
   </style>
 
   <!-- Firebase SDK -->
