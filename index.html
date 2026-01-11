@@ -445,7 +445,64 @@ section#booking {
     </div>
 
     <!-- 특전 -->
-    <div class="tab-content"><p>특전 내용이 들어갑니다.</p></div>
+    <div class="tab-content" id="gift-tab-content">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+    <h3 style="text-align: center; color: #24426b; margin-bottom: 40px; font-size: 24px; font-weight: 800; letter-spacing: 2px;">SPECIAL GIFT</h3>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+      
+      <div onclick="window.showMeTheGift('이미지1.jpg', '종이컵', '13onz', '이희준좋아')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <img src="이미지1.jpg" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentNode.innerHTML='<div style=\'height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;\'>coming soon</div>'">
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지2.jpg', '티켓', 'I형 티켓', '1인 1매 한정입니다.')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <img src="이미지2.jpg" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentNode.innerHTML='<div style=\'height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;\'>coming soon</div>'">
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지3.jpg', '포토카드', '55*85', '이희준보고싶어')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지4.jpg', '기타피크', '삼각', '증정')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지5.jpg', '팜플렛', 'A5', '1세트')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지6.jpg', '엽서', '엽서사이즈', '2매')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지7.jpg', '띠부씰', '빵', '1매')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+
+      <div onclick="window.showMeTheGift('이미지8.jpg', '고민중', '이희준', '아뎌띠')" style="aspect-ratio: 1/1.4; background: #f8fafc; border-radius: 12px; overflow: hidden; cursor: pointer; border: 1px solid #eee;">
+        <div style="height:100%; display:flex; align-items:center; justify-content:center; color:#cbd5e1;">coming soon</div>
+      </div>
+    </div> </div> </div> <div id="GIFT_MODAL_BOX" onclick="this.style.display='none'" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:99999; padding:20px;">
+  <div style="background:#fff; border-radius:20px; max-width:850px; width:95%; display:flex; overflow:hidden; position:relative; flex-wrap: wrap;" onclick="event.stopPropagation();">
+    
+    <div style="flex: 1.2; min-width: 300px; background: #000; display: flex; align-items: center; justify-content: center;">
+      <img id="GIFT_IMG" src="" style="width:100%; max-height:70vh; object-fit: contain;">
+    </div>
+
+    <div style="flex: 1; min-width: 300px; padding: 40px 30px; background: #fff; display: flex; flex-direction: column; justify-content: center;">
+      <h4 id="GIFT_NAME" style="margin:0; font-size:26px; color:#24426b; font-weight: 800;">제목</h4>
+      <div style="width: 40px; height: 4px; background: #24426b; margin: 20px 0;"></div>
+      
+      <p style="font-size: 12px; color: #aaa; font-weight: bold; margin-bottom: 5px;">SPECIFICATION</p>
+      <p id="GIFT_SIZE" style="font-size: 17px; color: #333; margin-bottom: 25px;">사이즈</p>
+      
+      <p style="font-size: 12px; color: #aaa; font-weight: bold; margin-bottom: 5px;">NOTICE</p>
+      <p id="GIFT_NOTICE" style="font-size: 15px; color: #666; line-height: 1.6;">공지사항</p>
+
+      <button onclick="document.getElementById('GIFT_MODAL_BOX').style.display='none'" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:30px; cursor:pointer;">&times;</button>
+    </div>
+  </div>
+</div>
 
     <!-- 협력진 -->
     <div class="tab-content">
@@ -494,17 +551,17 @@ section#booking {
     
     <div style="display: flex; align-items: center; gap: 12px;">
       <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
-        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+        <img src="staff2.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
       </div>
       
       <div>
         <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
-        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
-        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">드룻소</div>
+        <div style="font-size: 12px; color: #94a3b8;">@dorama_deul</div>
       </div>
     </div>
 
-    <a href="https://twitter.com/아이디" target="_blank" 
+    <a href="https://twitter.com/@dorama_deul" target="_blank" 
        onclick="event.stopPropagation();" 
        style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
        Visit
@@ -524,17 +581,17 @@ section#booking {
     
     <div style="display: flex; align-items: center; gap: 12px;">
       <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
-        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+        <img src="staff3.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
       </div>
       
       <div>
-        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
-        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
-        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Photo</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">이어휴</div>
+        <div style="font-size: 12px; color: #94a3b8;">@I80808_W</div>
       </div>
     </div>
 
-    <a href="https://twitter.com/아이디" target="_blank" 
+    <a href="https://twitter.com/@I80808_W" target="_blank" 
        onclick="event.stopPropagation();" 
        style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
        Visit
@@ -554,17 +611,17 @@ section#booking {
     
     <div style="display: flex; align-items: center; gap: 12px;">
       <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
-        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+        <img src="staff4.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
       </div>
       
       <div>
-        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
-        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
-        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Photo</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">개장</div>
+        <div style="font-size: 12px; color: #94a3b8;">@221_whitelab</div>
       </div>
     </div>
 
-    <a href="https://twitter.com/아이디" target="_blank" 
+    <a href="https://twitter.com/@221_whitelab" target="_blank" 
        onclick="event.stopPropagation();" 
        style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
        Visit
@@ -831,6 +888,15 @@ window.goToReservation = function() {
       list.appendChild(item);
     });
   });
+
+// --- [특전모달] ---
+window.showMeTheGift = function(img, name, size, notice) {
+    document.getElementById('GIFT_IMG').src = img;
+    document.getElementById('GIFT_NAME').innerText = name;
+    document.getElementById('GIFT_SIZE').innerText = "사이즈: " + size;
+    document.getElementById('GIFT_NOTICE').innerText = notice;
+    document.getElementById('GIFT_MODAL_BOX').style.display = 'flex';
+};
 
   // --- [기타 기능 통합] ---
   window.showTab = function(index) {
