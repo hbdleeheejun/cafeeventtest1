@@ -135,15 +135,12 @@ section#booking {
   transition: all 0.2s;
 }
 
-/* 날짜 선택 시 효과 */
+/* 선택된 날짜: 배경은 그대로 두고 진한 남색 테두리만 추가 */
 .calendar-box td.selected-day {
-  background: #24426b !important; /* 진한 파랑 */
-  color: #fff !important;
-}
-
-/* 선택된 날짜 동그라미 테두리 효과 */
-.calendar-box td.active:active {
-  transform: scale(0.9);
+  background: #cbd5e1 !important; /* 원래의 연한 하늘색 유지 */
+  color: #1e293b !important;      /* 글자색 유지 */
+  box-shadow: inset 0 0 0 2px #24426b; /* 안쪽으로 진한 남색 테두리 2px */
+  border-radius: 50%;
 }
 
     /* 예매 버튼 초기 상태 (비활성화 느낌) */
@@ -451,7 +448,140 @@ section#booking {
     <div class="tab-content"><p>특전 내용이 들어갑니다.</p></div>
 
     <!-- 협력진 -->
-    <div class="tab-content"><p>협력진 정보가 들어갑니다.</p></div>
+    <div class="tab-content">
+  <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+    <h3 style="text-align: center; color: #24426b; margin-bottom: 40px; font-size: 24px; letter-spacing: 2px; font-weight: 800;">COOPERATION</h3>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+    <div style="background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer;" 
+     onclick="openImgModal('작업물_이미지_경로.jpg')">
+  
+  <div style="width: 100%; height: 160px; background: #f8fafc; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; color: #cbd5e1; font-size: 13px;">
+    작업물 클릭 시 확대
+  </div>
+
+  <div style="padding: 15px; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation();">
+    
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
+        <img src="staff1.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+      </div>
+      
+      <div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">삼이</div>
+        <div style="font-size: 12px; color: #94a3b8;">@three3ee2</div>
+      </div>
+    </div>
+
+    <a href="https://x.com/three3ee2" target="_blank" 
+       onclick="event.stopPropagation();" 
+       style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
+       Visit
+    </a>
+
+  </div>
+</div>
+
+      <div style="background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer;" 
+     onclick="openImgModal('작업물_이미지_경로.jpg')">
+  
+  <div style="width: 100%; height: 160px; background: #f8fafc; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; color: #cbd5e1; font-size: 13px;">
+    작업물 클릭 시 확대
+  </div>
+
+  <div style="padding: 15px; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation();">
+    
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
+        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+      </div>
+      
+      <div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
+        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+      </div>
+    </div>
+
+    <a href="https://twitter.com/아이디" target="_blank" 
+       onclick="event.stopPropagation();" 
+       style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
+       Visit
+    </a>
+
+  </div>
+</div>
+
+      <div style="background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer;" 
+     onclick="openImgModal('작업물_이미지_경로.jpg')">
+  
+  <div style="width: 100%; height: 160px; background: #f8fafc; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; color: #cbd5e1; font-size: 13px;">
+    작업물 클릭 시 확대
+  </div>
+
+  <div style="padding: 15px; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation();">
+    
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
+        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+      </div>
+      
+      <div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
+        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+      </div>
+    </div>
+
+    <a href="https://twitter.com/아이디" target="_blank" 
+       onclick="event.stopPropagation();" 
+       style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
+       Visit
+    </a>
+
+  </div>
+</div>
+
+      <div style="background: #fff; border: 1px solid #eee; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); cursor: pointer;" 
+     onclick="openImgModal('작업물_이미지_경로.jpg')">
+  
+  <div style="width: 100%; height: 160px; background: #f8fafc; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f1f5f9; color: #cbd5e1; font-size: 13px;">
+    작업물 클릭 시 확대
+  </div>
+
+  <div style="padding: 15px; display: flex; align-items: center; justify-content: space-between;" onclick="event.stopPropagation();">
+    
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: #e2e8f0; border: 1px solid #f1f5f9; flex-shrink: 0;">
+        <img src="인장_이미지_경로.jpg" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
+      </div>
+      
+      <div>
+        <div style="font-size: 11px; color: #24426b; font-weight: bold; text-transform: uppercase; margin-bottom: 2px;">Main Design</div>
+        <div style="font-size: 15px; font-weight: 800; color: #333; line-height: 1.2;">협력진 닉네임</div>
+        <div style="font-size: 12px; color: #94a3b8;">@Twitter_ID</div>
+      </div>
+    </div>
+
+    <a href="https://twitter.com/아이디" target="_blank" 
+       onclick="event.stopPropagation();" 
+       style="padding: 7px 14px; background: #24426b; color: #fff; font-size: 11px; border-radius: 6px; font-weight: bold; text-decoration: none; transition: 0.2s;">
+       Visit
+    </a>
+
+  </div>
+</div>
+
+<div id="img-modal" onclick="this.style.display='none'" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); justify-content:center; align-items:center; z-index:2000; cursor:zoom-out;">
+  <img id="modal-full-img" src="" style="max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 0 20px rgba(0,0,0,0.5);">
+  <p style="position:absolute; bottom:20px; color:#fff; font-size:14px;">화면을 클릭하면 닫힙니다.</p>
+</div>
+
+
+    </div>
+  </div>
+</div>
 
     <!-- 오시는 길 -->
    <div class="tab-content" style="display: none;">
@@ -733,8 +863,20 @@ window.goToReservation = function() {
   window.closeModal = function() { document.getElementById('modal').style.display = 'none'; };
 
   document.addEventListener("DOMContentLoaded", () => showTab(0));
-</script>
 
+// 이미지 확대 모달 열기 함수
+  window.openImgModal = function(imgSrc) {
+    const modal = document.getElementById('img-modal');
+    const modalImg = document.getElementById('modal-full-img');
+    
+    if (imgSrc && imgSrc !== '' && !imgSrc.includes('주소')) {
+      modalImg.src = imgSrc;
+      modal.style.display = 'flex';
+    } else {
+      alert("아직 등록된 이미지가 없습니다!");
+    }
+  };
+</script>
 
 </body>
 </html>  
