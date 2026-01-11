@@ -202,26 +202,44 @@ section#booking {
 
 /* 모바일 화면(768px 이하)일 때만 작동 */
 @media (max-width: 768px) {
-  
-  /* 위쪽 기존 예약 관련 코드들은 그대로 두세요 */
-
   #info-tabs .tab-menu {
-    display: grid !important;          /* 1. 가로 나열 대신 바둑판 정렬 */
-    grid-template-columns: 1fr 1fr 1fr; /* 2. 정확히 3칸씩 나눔 */
-    width: 100% !important;             /* 3. 화면 너비 꽉 채우기 */
-    margin: 0 !important;               /* 4. 불필요한 여백 제거 */
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
     padding: 0 !important;
-    gap: 0 !important;                  /* 5. 칸 사이 벌어짐 방지 */
+    margin: 0 !important;
+    border-top: 1px solid #ddd;
+  }
+
+  /* 첫 번째 줄: 3개 배치 (상세정보, 캐스팅, 특전 등) */
+  #info-tabs .tab-item:nth-child(-n+3) {
+    width: 33.33% !important; 
+  }
+
+  /* 두 번째 줄: 4개 배치 (협력진, 오시는 길, 후기, Q&A 등) */
+  #info-tabs .tab-item:nth-child(n+4) {
+    width: 25% !important;
   }
 
   #info-tabs .tab-item {
-    width: 100% !important;             /* 6. 한 칸을 꽉 채우기 */
-    box-sizing: border-box;
+    height: 52px; /* 4개 줄은 글자가 좁으니 높이를 약간 줘서 터치하기 편하게 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding: 12px 5px !important;       /* 7. 위아래 여백만 적절히 주기 */
-    font-size: 13px !important;         /* 8. 글자 크기 살짝 줄이기 */
-    border: 0.5px solid #eee;           /* 9. 아주 연한 구분선 */
-    display: block !important;          /* 10. 요소가 겹치지 않게 설정 */
+    box-sizing: border-box;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    font-size: 11.5px !important; /* 4개 줄을 위해 아주 살짝만 더 줄임 */
+    font-weight: 500;
+    padding: 0 1px !important;
+    word-break: keep-all;
+  }
+
+  /* 줄 끝에 걸리는 아이템들 선 정리 */
+  #info-tabs .tab-item:nth-child(3),
+  #info-tabs .tab-item:nth-child(7) {
+    border-right: none;
   }
 }
 
@@ -404,10 +422,11 @@ section#booking {
     <span class="tab-item" onclick="showTab(3); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">협력진</span>
     <span class="tab-item" onclick="showTab(4); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">오시는 길</span>
     <span class="tab-item" onclick="showTab(5); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">기대평/후기</span>
+    <span class="tab-item" onclick="showTab(6); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">QnA</span>
   </div>
 </div>
 
-   <div class="tab-contents">
+  <div class="tab-contents">
     <!-- 상세 정보 -->
     <div class="tab-content">
 <div id="info-section" style="max-width: 1000px; margin: 0 auto; text-align: center;">
@@ -699,6 +718,45 @@ section#booking {
   </div>
 </div>
 
+
+<div id="tab7" class="tab-content">
+  <div class="qna-section" style="max-width: 800px; margin: 0 auto; padding: 40px 20px;">
+  <h3 style="text-align: center; margin-bottom: 40px; font-size: 22px; font-weight: 800; color: #1a2a4e;">자주 묻는 질문 (Q&A)</h3>
+  
+ <details style="border-bottom: 1px solid #eee; padding: 15px 0; cursor: pointer;">
+  <summary style="list-style: none; outline: none;">
+    <span style="font-weight: bold; display: block;">Q. 예약 후 방문해야 하나요?</span>
+  </summary>
+      <p style="padding: 15px 10px 0; color: #666; line-height: 1.6;">A. 2026 배우 이희준 생일카페 SCENE#0629는 별도의 예약 없이 이용 가능합니다. 
+해당 홈페이지는 이벤트성으로 개설된 페이지이며, 별도의 예약/예매 기능이 없습니다.</p>
+    </details>
+
+    <details style="border-bottom: 1px solid #eee; padding: 15px 0; cursor: pointer;">
+  <summary style="list-style: none; outline: none;">
+    <span style="font-weight: bold; display: block;">Q. 생일 카페가 무엇인가요?</span>
+  </summary>
+      <p style="padding: 15px 10px 0; color: #666; line-height: 1.6;">A. 해당 이벤트는 배우 이희준의 생일을 축하하기 위해 팬주최 비공식 이벤트입니다.
+본 이벤트는, 전체 대관이 아닌 장소 대관으로 진행되기에 일반 이용객 분들도 방문하실 수 있습니다.</p>
+    </details>
+
+    <details style="border-bottom: 1px solid #eee; padding: 15px 0; cursor: pointer;">
+  <summary style="list-style: none; outline: none;">
+    <span style="font-weight: bold; display: block;">Q. 방문 시 도움이 필요합니다.</span>
+  </summary>
+      <p style="padding: 15px 10px 0; color: #666; line-height: 1.6;">A. 방문 시 메뉴 주문, 특전 수령, 길찾기 등 도움이 필요하신 분께서는 아래 카카오톡 오픈 채팅, X(트위터) 디엠 주세요. 빠르게 도와드리겠습니다.</p>
+    </details>
+  </div>
+
+  <div style="background: #f8f9fa; border-radius: 15px; padding: 30px; text-align: center;">
+    <p style="font-size: 14px; color: #555; margin-bottom: 20px; font-weight: 600;">기타 문의사항은 아래 채널을 이용해 주세요.</p>
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <a href="#" style="text-decoration: none; background: #fee500; color: #3c1e1e; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: bold;">카카오톡 오픈채팅</a>
+      <a href="#" style="text-decoration: none; background: #000; color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: bold;">X (트위터) DM</a>
+      <a href="#" style="text-decoration: none; background: #ff4d4d; color: #fff; padding: 12px 20px; border-radius: 30px; font-size: 13px; font-weight: bold;">스핀 (SpinSpin)</a>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL -->
 <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
   <div style="background:#fff; padding:24px; border-radius:12px; max-width:500px; width:90%; position:relative;">
@@ -707,6 +765,7 @@ section#booking {
     <table id="modal-table" style="width:100%; margin-top:12px; border-collapse:collapse;"><tbody></tbody></table>
   </div>
 </div>
+
 
 <script type="module">
   // 1. 필요한 기능들 한꺼번에 불러오기
@@ -1008,9 +1067,9 @@ window.openModal = function(id) {
       alert("아직 등록된 이미지가 없습니다!");
     }
   };
+
 </script>
 
 </body>
 </html>  
-
 
