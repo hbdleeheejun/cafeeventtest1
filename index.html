@@ -125,29 +125,47 @@ section#booking {
       font-size: 15px;
       text-align: center;
     }
-    /* 강조 날짜 (27, 28, 29) */
-    .calendar-box td.active {
-      background: #24426b;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+    /* 기본 강조 날짜 (연한 파랑) */
+.calendar-box td.active {
+  background: #cbd5e1 !important; /* 연한 블루 그레이 */
+  color: #1e293b;
+  font-weight: bold;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
 
-    /* 예매하기 버튼 */
-    .reserve-btn {
-      width: 100%;
-      margin-top: 24px;
-      padding: 18px;
-      font-size: 18px;
-      font-weight: 700;
-      background: #24426b;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+/* 날짜 선택 시 효과 */
+.calendar-box td.selected-day {
+  background: #24426b !important; /* 진한 파랑 */
+  color: #fff !important;
+}
+
+/* 선택된 날짜 동그라미 테두리 효과 */
+.calendar-box td.active:active {
+  transform: scale(0.9);
+}
+
+    /* 예매 버튼 초기 상태 (비활성화 느낌) */
+.reserve-btn {
+  width: 100%;
+  margin-top: 24px;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 700;
+  background: #94a3b8; /* 비활성화 색상 */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: not-allowed; /* 금지 표시 */
+  transition: all 0.3s;
+}
+
+/* 예매 버튼 활성화 상태 */
+.reserve-btn.enabled {
+  background: #24426b;
+  cursor: pointer;
+}
     .reserve-btn:hover {
       background: #1e3560;
     }
@@ -358,19 +376,32 @@ section#booking {
         </div>
 
         <div class="calendar-side">
-          <div class="calendar-box">
-            <h4>2026.06</h4>
-            <table>
-              <tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>
-              <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
-              <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
-              <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
-              <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td class="active">27</td></tr>
-              <tr><td class="active">28</td><td class="active">29</td><td>30</td><td></td><td></td><td></td><td></td></tr>
-            </table>
-          </div>
-          <a href="seat.html"><button class="reserve-btn">예매하기</button></a>
-        </div>
+  <div class="calendar-box">
+    <h4>2026.06</h4>
+    <table>
+      <tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>
+      <tr><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr>
+      <tr><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td></tr>
+      <tr><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+      <tr><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td class="active" onclick="selectDate(27, '11:00 - 20:00', this)">27</td>
+      </tr>
+      <tr>
+        <td class="active" onclick="selectDate(28, '12:00 - 19:00', this)">28</td>
+        <td class="active" onclick="selectDate(29, '10:00 - 19:00', this)">29</td>
+        <td>30</td><td></td><td></td><td></td><td></td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="time-selector" style="margin-top: 20px; display: none;">
+    <p style="font-size: 13px; color: #666; margin-bottom: 8px; font-weight: bold;">회차 선택</p>
+    <div id="time-slot" onclick="selectTime(this)" style="padding: 12px; border: 1px solid #ddd; border-radius: 4px; text-align: center; cursor: pointer; font-size: 15px; font-weight: 600; transition: all 0.2s;">
+      </div>
+  </div>
+
+<button id="main-reserve-btn" class="reserve-btn" onclick="goToReservation()">예매하기</button>
+</div>
+ </div>
       </div>
     </div>
   </div>
@@ -502,6 +533,69 @@ section#booking {
   const db = getFirestore(app);
 
   let editId = null; 
+
+let isDateSelected = false;
+let isTimeSelected = false;
+
+// 날짜 선택 함수
+window.selectDate = function(day, time, element) {
+  // 모든 날짜 색상 초기화
+  const allActiveDays = document.querySelectorAll('.calendar-box td.active');
+  allActiveDays.forEach(td => td.classList.remove('selected-day'));
+  
+  // 클릭한 날짜 진하게 변경
+  element.classList.add('selected-day');
+  isDateSelected = true;
+
+  // 시간 섹션 표시 및 초기화
+  const timeSelector = document.getElementById('time-selector');
+  const timeSlot = document.getElementById('time-slot');
+  timeSelector.style.display = 'block';
+  timeSlot.textContent = time;
+  
+  // 시간 선택 상태 초기화
+  isTimeSelected = false;
+  timeSlot.style.background = "#fff";
+  timeSlot.style.color = "#000";
+  timeSlot.style.borderColor = "#ddd";
+  
+  checkValidation(); // 버튼 상태 체크
+};
+
+// 시간 선택 함수
+window.selectTime = function(element) {
+  if (!isDateSelected) return;
+
+  isTimeSelected = true;
+  element.style.background = "#24426b";
+  element.style.color = "#fff";
+  element.style.borderColor = "#24426b";
+  
+  checkValidation(); // 버튼 상태 체크
+};
+
+// 모든 조건이 충족되었는지 확인하는 함수
+function checkValidation() {
+  const btn = document.getElementById('main-reserve-btn');
+  if (isDateSelected && isTimeSelected) {
+    btn.classList.add('enabled');
+    btn.style.background = "#24426b"; // 강제로 색상 변경 확인
+    btn.style.cursor = "pointer";
+  } else {
+    btn.classList.remove('enabled');
+    btn.style.background = "#94a3b8";
+    btn.style.cursor = "not-allowed";
+  }
+}
+
+// 예매 버튼 클릭 시 이동 제어
+window.goToReservation = function() {
+  if (isDateSelected && isTimeSelected) {
+    window.location.href = "seat.html"; // 조건 만족 시 이동
+  } else {
+    alert("날짜와 시간을 모두 선택해 주세요!");
+  }
+};
 
   // --- [후기 등록 및 수정 완료] ---
   window.submitReview = async function() {
