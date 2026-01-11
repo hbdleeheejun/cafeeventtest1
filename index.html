@@ -168,10 +168,55 @@ section#booking {
     }
 
     /* TABS */
-    .tab-menu { display:flex; gap:24px; justify-content:center; border-bottom:1px solid #ccc; margin-bottom:16px; flex-wrap:wrap; }
-    .tab-item { cursor:pointer; font-weight:700; padding:8px 12px; color:#24426b; }
-    .tab-item.active { border-bottom:3px solid #24426b; }
-    .tab-content { display:none; padding:12px 0; }
+    /* [PC용 기본 스타일] */
+.tab-menu { 
+  display: flex; 
+  gap: 24px; 
+  justify-content: center; 
+  border-bottom: 1px solid #ccc; 
+  margin-bottom: 16px; 
+}
+.tab-item { cursor: pointer; font-weight: 700; padding: 8px 12px; color: #24426b; }
+.tab-item.active { border-bottom: 3px solid #24426b; }
+.tab-content { display: none; padding: 12px 0; }
+
+/* [모바일 최적화: 768px 이하] */
+@media (max-width: 768px) {
+  .tab-menu {
+    display: grid !important;
+    /* 핵심: 무조건 4등분 */
+    grid-template-columns: repeat(4, 1fr) !important; 
+    gap: 0 !important;
+    border: 1px solid #ddd !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .tab-item {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    height: 50px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid #eee !important;
+    border-bottom: 1px solid #eee !important;
+    background: #fff !important;
+    font-size: 11.5px !important; /* 4개씩이라 글씨를 살짝 줄여야 안 깨져요 */
+    padding: 5px !important;
+  }
+
+  /* 4번, 8번(빈칸) 자리의 오른쪽 테두리 제거 */
+  .tab-item:nth-child(4n) {
+    border-right: none !important;
+  }
+
+  /* 마지막 줄 테두리 정리 */
+  .tab-item:nth-child(n+5) {
+    border-bottom: none !important;
+  }
+}
+
 
     /* CASTING */
     .cast-list { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; }
@@ -199,49 +244,6 @@ section#booking {
         gap: 20px;
         align-items: center;
       }
-
-/* 모바일 화면(768px 이하)일 때만 작동 */
-@media (max-width: 768px) {
-  #info-tabs .tab-menu {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border-top: 1px solid #ddd;
-  }
-
-  /* 첫 번째 줄: 3개 배치 (상세정보, 캐스팅, 특전 등) */
-  #info-tabs .tab-item:nth-child(-n+3) {
-    width: 33.33% !important; 
-  }
-
-  /* 두 번째 줄: 4개 배치 (협력진, 오시는 길, 후기, Q&A 등) */
-  #info-tabs .tab-item:nth-child(n+4) {
-    width: 25% !important;
-  }
-
-  #info-tabs .tab-item {
-    height: 52px; /* 4개 줄은 글자가 좁으니 높이를 약간 줘서 터치하기 편하게 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-sizing: border-box;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    font-size: 11.5px !important; /* 4개 줄을 위해 아주 살짝만 더 줄임 */
-    font-weight: 500;
-    padding: 0 1px !important;
-    word-break: keep-all;
-  }
-
-  /* 줄 끝에 걸리는 아이템들 선 정리 */
-  #info-tabs .tab-item:nth-child(3),
-  #info-tabs .tab-item:nth-child(7) {
-    border-right: none;
-  }
-}
 
       /* 포스터 크기 조절 */
       .poster {
@@ -290,10 +292,7 @@ section#booking {
       /* 버튼에 가려지는 내용이 없도록 바닥 여백 추가 */
       body { padding-bottom: 80px; }
 
-      /* 탭 메뉴가 깨지지 않게 간격 조절 */
-      .tab-menu { gap: 10px; }
-      .tab-item { font-size: 14px; padding: 6px; }
-    }
+     
   </style>
 
   <!-- Firebase SDK -->
@@ -1072,4 +1071,5 @@ window.openModal = function(id) {
 
 </body>
 </html>  
+
 
