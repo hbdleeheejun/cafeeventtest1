@@ -17,7 +17,7 @@
 
     /* BOOKING 섹션 레이아웃 (더 넓고 시원하게) */
 section#booking {
-      padding-top: 80px; /* 상단바 아래 여백 */
+      padding-top: 50px; /* 상단바 아래 여백 */
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -200,6 +200,31 @@ section#booking {
         align-items: center;
       }
 
+/* 모바일 화면(768px 이하)일 때만 작동 */
+@media (max-width: 768px) {
+  
+  /* 위쪽 기존 예약 관련 코드들은 그대로 두세요 */
+
+  #info-tabs .tab-menu {
+    display: grid !important;          /* 1. 가로 나열 대신 바둑판 정렬 */
+    grid-template-columns: 1fr 1fr 1fr; /* 2. 정확히 3칸씩 나눔 */
+    width: 100% !important;             /* 3. 화면 너비 꽉 채우기 */
+    margin: 0 !important;               /* 4. 불필요한 여백 제거 */
+    padding: 0 !important;
+    gap: 0 !important;                  /* 5. 칸 사이 벌어짐 방지 */
+  }
+
+  #info-tabs .tab-item {
+    width: 100% !important;             /* 6. 한 칸을 꽉 채우기 */
+    box-sizing: border-box;
+    text-align: center;
+    padding: 12px 5px !important;       /* 7. 위아래 여백만 적절히 주기 */
+    font-size: 13px !important;         /* 8. 글자 크기 살짝 줄이기 */
+    border: 0.5px solid #eee;           /* 9. 아주 연한 구분선 */
+    display: block !important;          /* 10. 요소가 겹치지 않게 설정 */
+  }
+}
+
       /* 포스터 크기 조절 */
       .poster {
         flex: 0 0 auto;
@@ -314,7 +339,7 @@ section#booking {
 <header>
   <div class="logo">SCENE #0629</div>
   <nav>
-오후 3:03 2026-01-11</header>
+</header>
 
 <section id="booking">
   <h2 style="max-width: 1100px; margin: 0 auto 40px auto; font-size: 32px;">예매</h2>
@@ -373,13 +398,14 @@ section#booking {
 <!-- TABS -->
 <div id="info-tabs" style="max-width:1200px; margin:24px auto;">
   <div class="tab-menu">
-    <span class="tab-item" onclick="showTab(0)">상세 정보</span>
-    <span class="tab-item" onclick="showTab(1)">캐스팅</span>
-    <span class="tab-item" onclick="showTab(2)">특전</span>
-    <span class="tab-item" onclick="showTab(3)">협력진</span>
-    <span class="tab-item" onclick="showTab(4)">오시는 길</span>
-    <span class="tab-item" onclick="showTab(5)">기대평/후기</span>
+    <span class="tab-item" onclick="showTab(0); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">상세 정보</span>
+    <span class="tab-item" onclick="showTab(1); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">캐스팅</span>
+    <span class="tab-item" onclick="showTab(2); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">특전</span>
+    <span class="tab-item" onclick="showTab(3); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">협력진</span>
+    <span class="tab-item" onclick="showTab(4); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">오시는 길</span>
+    <span class="tab-item" onclick="showTab(5); window.scrollTo({top: document.getElementById('info-tabs').offsetTop - 300, behavior: 'smooth'});">기대평/후기</span>
   </div>
+</div>
 
   <div class="tab-contents">
     <!-- 상세 정보 -->
@@ -987,4 +1013,3 @@ window.openModal = function(id) {
 
 </body>
 </html>  
-
