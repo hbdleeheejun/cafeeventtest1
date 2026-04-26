@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>좌석 선택 - Lee Hee Jun Birthday Cafe</title>
+<title>좌석 선택 - JuneJun Birthday Cafe</title>
 <style>
   body {
     margin:0; font-family:Pretendard, Arial, sans-serif;
@@ -19,7 +19,7 @@
 
   .stage { 
     background:#d3d6dd; font-weight:700; padding:16px;
-    border-radius:8px; margin:0 auto 24px auto; /* 가운데 정렬 */
+    border-radius:8px; margin:0 auto 24px auto;
     width:50%;
   }
 
@@ -34,20 +34,43 @@
   .seat {
     width:28px; height:28px;
     border-radius:50%;
-    background:#dbe2ef; /* 클릭 가능한 좌석 */
+    background:#dbe2ef;
     cursor:pointer;
     transition: background 0.2s;
+    position: relative; /* 별 표시를 위해 추가 */
   }
 
-  .seat.selected { background:#24426b; } /* H22 선택 시 색 변경 */
-  .seat.disabled { background:#a3a3a3; cursor:default; } /* 이미 선택된 좌석 */
+  .seat.selected { background:#24426b !important; }
+  .seat.disabled { background:#a3a3a3 !important; cursor:default; }
+
+  /* --- [추가] 마지막 남은 좌석 강조 스타일 --- */
+  .seat.last-seat {
+    background-color: #ff9800 !important;
+    border: 2px solid #e65100 !important;
+    animation: pulse 1.5s infinite;
+  }
+
+  .seat.last-seat::after {
+    content: '★';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 14px;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+  }
 
   .selected-seat { font-weight:700; margin-bottom:24px; }
   .reserve-btn {
-    padding:12px 24px; background:#24426b; color:#fff; /* 버튼 색상 변경 */
+    padding:12px 24px; background:#24426b; color:#fff;
     border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700;
   }
-  .reserve-btn:hover { background:#1e3560; }
 </style>
 </head>
 <body>
@@ -55,9 +78,7 @@
 <div class="seat-container">
   <h2>STEP 2. 좌석 선택</h2>
   <div class="stage">STAGE</div>
-
   <div class="seat-grid" id="seatGrid"></div>
-
   <div class="selected-seat" id="selectedSeat">선택 좌석: 없음</div>
   <button class="reserve-btn" onclick="confirmSeat()">다음 단계</button>
 </div>
@@ -68,28 +89,28 @@
 
   const rows = 10;
   const cols = 12;
-
   const disabledSeats = ['1-3','1-5','2-2','2-6','3-4','3-7','7-3','7-5','7-7','8-2','8-8','9-4','9-6','10-3','10-7','10-10'];
-
   const hRow = 8;
-  const hCol = 6; // H열 중앙 좌석
+  const hCol = 6;
   const seats = [];
 
-  // 좌석 생성
+  // 1. 좌석 생성
   for(let r=1; r<=rows; r++){
     for(let c=1; c<=cols; c++){
       const seat = document.createElement('div');
       seat.className = 'seat';
       seat.dataset.row = r;
       seat.dataset.col = c;
-
       const seatKey = r + '-' + c;
+
       if(disabledSeats.includes(seatKey)){
         seat.classList.add('disabled');
       }
 
       seat.addEventListener('click', () => {
         if(r === hRow && c === hCol){
+          // 기존 선택 해제
+          document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
           seat.classList.add('selected');
           selectedSeat.textContent = '선택 좌석: H22';
         } else if(!seat.classList.contains('disabled')){
@@ -103,6 +124,7 @@
     }
   }
 
+  // 2. 랜덤 애니메이션 함수 (애니메이션 끝난 후 "마지막 좌석" 체크)
   function animateSeatsRandom(){
     const seatsToAnimate = seats.filter(s => {
       const r = parseInt(s.dataset.row);
@@ -110,46 +132,31 @@
       return !(r===hRow && c===hCol) && !s.classList.contains('disabled');
     });
 
-    // 불규칙 순서로 섞기
     for(let i=seatsToAnimate.length -1; i>0; i--){
       const j = Math.floor(Math.random() * (i+1));
       [seatsToAnimate[i], seatsToAnimate[j]] = [seatsToAnimate[j], seatsToAnimate[i]];
     }
 
-    // 순차적으로 회색으로 변함
     seatsToAnimate.forEach((s, idx) => {
-      setTimeout(()=> s.classList.add('disabled'), idx*20);
+      setTimeout(()=> {
+        s.classList.add('disabled');
+        // 모든 좌석이 비활성화되고 H22만 남았는지 매번 확인
+        checkLastOne();
+      }, idx * 20);
     });
   }
-/* 마지막 남은 좌석 스타일 */
-.seat.last-seat {
-  background-color: #ff9800 !important; /* 눈에 확 띄는 오렌지색 */
-  border: 2px solid #e65100 !important;
-  animation: pulse 1.5s infinite; /* 깜빡이는 효과로 시선 집중 */
-  position: relative;
-}
 
-/* 좌석 안에 별(*) 표시 넣기 */
-.seat.last-seat::after {
-  content: '★';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 12px;
-}
+  // 3. [핵심] 마지막 남은 한 자리를 찾아 별표를 달아주는 함수
+  function checkLastOne() {
+    const availableSeats = seats.filter(s => !s.classList.contains('disabled'));
+    
+    if (availableSeats.length === 1) {
+      availableSeats[0].classList.add('last-seat');
+    }
+  }
 
-/* 부드럽게 깜빡이는 애니메이션 */
-@keyframes pulse {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
-  70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
-}
-  
   function confirmSeat(){
     if(selectedSeat.textContent==='선택 좌석: H22'){
-        // 다음 단계 페이지로 이동
         window.location.href = "complete.html";
     } else {
         alert('좌석을 선택해주세요.');
