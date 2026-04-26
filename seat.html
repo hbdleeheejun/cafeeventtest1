@@ -15,57 +15,57 @@
   }
   h2 { margin-bottom:24px; color: #1a304d; font-weight: 800; }
   .stage { 
-    background:#334155; font-weight:700; padding:18px;
-    border-radius:8px; margin:0 auto 30px auto; width:60%; color: #fff; font-size: 14px;
+    background:#334155; font-weight:700; padding:12px;
+    border-radius:8px; margin:0 auto 30px auto; width:50%; color: #fff; font-size: 13px;
     letter-spacing: 2px;
   }
   .seat-grid {
-    display:grid; grid-template-columns: repeat(12, 32px);
-    gap:10px; justify-content:center; margin-bottom:30px;
+    display:grid; grid-template-columns: repeat(12, 26px); /* 크기 축소 */
+    gap:8px; justify-content:center; margin-bottom:30px;
   }
   
-  /* [1. 기본 좌석 - 깨끗한 흰색] */
+  /* [기본 좌석] */
   .seat {
-    width:32px; height:32px; border-radius:50%;
-    background:#ffffff; cursor:pointer; transition: all 0.2s ease;
-    position: relative; border: 2px solid #cbd5e1;
+    width:26px; height:26px; border-radius:50%;
+    background:#ffffff; cursor:pointer; transition: all 0.3s ease;
+    position: relative; border: 1.5px solid #cbd5e1;
   }
 
-  /* [2. 내가 선택한 좌석 - 체크표시와 함께 확실한 남색] */
+  /* [선택된 좌석] */
   .seat.selected { 
     background:#1a304d !important; 
     border-color: #1a304d !important;
     transform: scale(1.1);
   }
   .seat.selected::after {
-    content: '✓'; color: white; font-size: 16px; font-weight: bold;
+    content: '✓'; color: white; font-size: 14px; font-weight: bold;
     position: absolute; top:50%; left:50%; transform: translate(-50%, -50%);
   }
   
-  /* [3. 이미 눌러져있는 자리 - '안 어두운 회색'으로 확실히 구분] */
+  /* [비활성화 좌석 - 확실한 중간 회색] */
   .seat.disabled { 
-    background:#94a3b8 !important; /* 중간 톤의 회색으로 변경 */
+    background:#94a3b8 !important; 
     border-color: #94a3b8 !important;
     cursor:default; 
   }
 
-  /* [4. 마지막 한 자리 강조 - 세련된 하늘색 광채] */
+  /* [은은한 강조 - 느린 호흡 효과] */
   .seat.last-glow:not(.disabled):not(.selected) {
-    background-color: #f0f9ff !important;
-    border: 3px solid #38bdf8 !important;
-    animation: gentle-pulse 2s infinite ease-in-out !important;
+    background-color: #f8fafc !important;
+    border: 2px solid #64748b !important; /* 조금 더 차분한 그레이블루 */
+    animation: gentle-breath 2.5s infinite ease-in-out !important;
   }
 
-  @keyframes gentle-pulse {
-    0% { transform: scale(1); box-shadow: 0 0 5px rgba(56, 189, 248, 0.4); }
-    50% { transform: scale(1.1); box-shadow: 0 0 15px rgba(56, 189, 248, 0.7); }
-    100% { transform: scale(1); box-shadow: 0 0 5px rgba(56, 189, 248, 0.4); }
+  @keyframes gentle-breath {
+    0% { transform: scale(1); border-color: #94a3b8; }
+    50% { transform: scale(1.05); border-color: #475569; }
+    100% { transform: scale(1); border-color: #94a3b8; }
   }
 
-  .selected-seat { font-weight:700; margin-bottom:30px; color: #1a304d; font-size: 18px; }
+  .selected-seat { font-weight:700; margin-bottom:30px; color: #1a304d; font-size: 16px; min-height: 24px; }
   .reserve-btn {
-    padding:16px 40px; background:#1a304d; color:#fff;
-    border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700;
+    padding:14px 36px; background:#1a304d; color:#fff;
+    border:none; border-radius:10px; cursor:pointer; font-size:15px; font-weight:700;
   }
 </style>
 </head>
@@ -80,7 +80,6 @@
 </div>
 
 <script>
-  // (스크립트 로직은 이전과 동일하므로 생략하지 않고 그대로 유지)
   const seatGrid = document.getElementById('seatGrid');
   const selectedSeat = document.getElementById('selectedSeat');
   const rows = 10;
@@ -101,10 +100,18 @@
 
       seat.addEventListener('click', () => {
         if(seat.classList.contains('disabled')) return;
+        
         if(r === hRow && c === hCol){
-          document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
-          seat.classList.add('selected');
-          selectedSeat.textContent = '선택 좌석: H22';
+          // 재클릭 시 취소 기능
+          if(seat.classList.contains('selected')) {
+            seat.classList.remove('selected');
+            selectedSeat.textContent = '선택 좌석: 없음';
+          } else {
+            document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
+            seat.classList.add('selected');
+            seat.classList.remove('last-glow'); // 선택하면 강조 제거
+            selectedSeat.textContent = '선택 좌석: H22';
+          }
         } else {
           alert('[이미 선택된 좌석입니다.]');
           animateSeatsRandom();
@@ -121,17 +128,22 @@
       const c = parseInt(s.dataset.col);
       return !(r===hRow && c===hCol) && !s.classList.contains('disabled');
     });
+
     for(let i=seatsToAnimate.length -1; i>0; i--){
       const j = Math.floor(Math.random() * (i+1));
       [seatsToAnimate[i], seatsToAnimate[j]] = [seatsToAnimate[j], seatsToAnimate[i]];
     }
+
     seatsToAnimate.forEach((s, idx) => {
       setTimeout(()=> {
         s.classList.add('disabled');
-        s.classList.remove('last-glow');
-        checkLastOne();
       }, idx * 15);
     });
+
+    // 모든 좌석이 변한 후(약 1초 뒤)에 강조 효과 시작
+    setTimeout(() => {
+      checkLastOne();
+    }, (seatsToAnimate.length * 15) + 800);
   }
 
   function checkLastOne() {
