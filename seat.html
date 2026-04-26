@@ -12,15 +12,15 @@
 
   .seat-container {
     background:#fff; padding:32px; border-radius:16px;
-    text-align:center; max-width:960px;
+    text-align:center; max-width:960px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   }
 
-  h2 { margin-bottom:24px; }
+  h2 { margin-bottom:24px; color: #24426b; }
 
   .stage { 
     background:#d3d6dd; font-weight:700; padding:16px;
     border-radius:8px; margin:0 auto 24px auto;
-    width:50%;
+    width:50%; color: #555;
   }
 
   .seat-grid {
@@ -36,18 +36,22 @@
     border-radius:50%;
     background:#dbe2ef;
     cursor:pointer;
-    transition: background 0.2s;
-    position: relative; /* 별 표시를 위해 추가 */
+    transition: all 0.2s;
+    position: relative;
   }
 
-  .seat.selected { background:#24426b !important; }
+  /* 선택된 좌석 (H22) */
+  .seat.selected { background:#24426b !important; transform: scale(1.1); }
+  
+  /* 비활성화된 좌석 (회색) */
   .seat.disabled { background:#a3a3a3 !important; cursor:default; }
 
-  /* --- [추가] 마지막 남은 좌석 강조 스타일 --- */
+  /* ✨ 마지막 남은 좌석 강조 (오렌지색 + 별 + 반짝임) */
   .seat.last-seat {
     background-color: #ff9800 !important;
     border: 2px solid #e65100 !important;
-    animation: pulse 1.5s infinite;
+    animation: pulse 1.2s infinite;
+    z-index: 10;
   }
 
   .seat.last-seat::after {
@@ -58,19 +62,22 @@
     transform: translate(-50%, -50%);
     color: white;
     font-size: 14px;
+    font-weight: bold;
   }
 
   @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
-    70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+    70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
     100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
   }
 
-  .selected-seat { font-weight:700; margin-bottom:24px; }
+  .selected-seat { font-weight:700; margin-bottom:24px; color: #24426b; }
+  
   .reserve-btn {
     padding:12px 24px; background:#24426b; color:#fff;
     border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700;
   }
+  .reserve-btn:hover { background:#1e3560; }
 </style>
 </head>
 <body>
@@ -89,12 +96,15 @@
 
   const rows = 10;
   const cols = 12;
+  // 미리 막혀있는 좌석들
   const disabledSeats = ['1-3','1-5','2-2','2-6','3-4','3-7','7-3','7-5','7-7','8-2','8-8','9-4','9-6','10-3','10-7','10-10'];
+  
+  // 우리가 선택해야 할 목표 좌석 (H22 위치)
   const hRow = 8;
   const hCol = 6;
   const seats = [];
 
-  // 1. 좌석 생성
+  // 좌석 생성 로직
   for(let r=1; r<=rows; r++){
     for(let c=1; c<=cols; c++){
       const seat = document.createElement('div');
@@ -108,12 +118,14 @@
       }
 
       seat.addEventListener('click', () => {
+        // H22 자리를 눌렀을 때
         if(r === hRow && c === hCol){
-          // 기존 선택 해제
           document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
           seat.classList.add('selected');
           selectedSeat.textContent = '선택 좌석: H22';
-        } else if(!seat.classList.contains('disabled')){
+        } 
+        // 이미 찼거나 엉뚱한 자리를 눌렀을 때
+        else if(!seat.classList.contains('disabled')){
           alert('[이미 선택된 좌석입니다.]');
           animateSeatsRandom();
         }
@@ -124,14 +136,16 @@
     }
   }
 
-  // 2. 랜덤 애니메이션 함수 (애니메이션 끝난 후 "마지막 좌석" 체크)
+  // 좌석들이 랜덤하게 회색으로 변하는 애니메이션
   function animateSeatsRandom(){
     const seatsToAnimate = seats.filter(s => {
       const r = parseInt(s.dataset.row);
       const c = parseInt(s.dataset.col);
+      // H22와 이미 막힌 좌석 제외
       return !(r===hRow && c===hCol) && !s.classList.contains('disabled');
     });
 
+    // 순서 섞기
     for(let i=seatsToAnimate.length -1; i>0; i--){
       const j = Math.floor(Math.random() * (i+1));
       [seatsToAnimate[i], seatsToAnimate[j]] = [seatsToAnimate[j], seatsToAnimate[i]];
@@ -140,24 +154,24 @@
     seatsToAnimate.forEach((s, idx) => {
       setTimeout(()=> {
         s.classList.add('disabled');
-        // 모든 좌석이 비활성화되고 H22만 남았는지 매번 확인
-        checkLastOne();
-      }, idx * 20);
+        checkLastOne(); // 좌석이 하나 남았는지 계속 체크
+      }, idx * 15);
     });
   }
 
-  // 3. [핵심] 마지막 남은 한 자리를 찾아 별표를 달아주는 함수
+  // 마지막 남은 한 자리(H22)에 별표 다는 함수
   function checkLastOne() {
     const availableSeats = seats.filter(s => !s.classList.contains('disabled'));
-    
     if (availableSeats.length === 1) {
       availableSeats[0].classList.add('last-seat');
     }
   }
 
   function confirmSeat(){
-    if(selectedSeat.textContent==='선택 좌석: H22'){
-        window.location.href = "complete.html";
+    if(selectedSeat.textContent === '선택 좌석: H22'){
+        // 실제 경로에 맞게 수정하세요 (예: complete.html)
+        alert('예약 페이지로 이동합니다!');
+        // window.location.href = "complete.html";
     } else {
         alert('좌석을 선택해주세요.');
     }
