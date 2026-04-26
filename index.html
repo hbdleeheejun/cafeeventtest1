@@ -436,39 +436,47 @@ section#booking {
     </div>
 
     <!-- 캐스팅 -->
-    <div class="tab-content">
-      <div id="casting-tab" style="text-align:center; padding:24px;">
-        <!-- 이희준 중앙 -->
-        <div class="cast-card-main" onclick="openModal('leeheejun')" style="display:inline-block; margin-bottom:24px; cursor:pointer;">
-          <img src="heejoon.jpg" alt="이희준" style="width:200px; border-radius:12px;">
-          <p style="margin-top:8px; font-weight:700; font-size:18px;">이희준</p>
-        </div>
-        <!-- 필모 캐릭터들 -->
-        <div class="cast-list">
-          <div class="cast-card" onclick="openModal('film1')" style="width:18%;"><img src="film1.jpg" alt="영화1"><p>영화1</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film3')" style="width:18%;"><img src="film3.jpg" alt="영화3"><p>영화3</p></div>
-          <div class="cast-card" onclick="openModal('film4')" style="width:18%;"><img src="film4.jpg" alt="영화4"><p>영화4</p></div>
-          <div class="cast-card" onclick="openModal('film5')" style="width:18%;"><img src="film5.jpg" alt="영화5"><p>영화5</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-          <div class="cast-card" onclick="openModal('film2')" style="width:18%;"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
-        </div>
-      </div>
+<div class="tab-content">
+  <div id="casting-tab" style="text-align:center; padding:24px;">
+    
+    <div class="cast-card-main" onclick="openModal('leeheejun')" style="display:inline-block; margin-bottom:32px; cursor:pointer;">
+      <img src="heejoon.jpg" alt="이희준" style="width:200px; border-radius:12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <p style="margin-top:12px; font-weight:800; font-size:20px; color:#24426b;">이희준</p>
     </div>
 
+    <div class="cast-list" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+      
+      <style>
+        .cast-card {
+          width: 18%;           /* 모바일에서는 화면 너비에 맞게 조정 */
+          max-width: 120px;     /* ★ 핵심: PC에서도 120px보다 커지지 않음 */
+          cursor: pointer;
+          transition: transform 0.2s;
+        }
+        .cast-card:hover { transform: translateY(-5px); }
+        .cast-card img {
+          width: 100%;          /* 카드 너비에 꽉 차게 */
+          border-radius: 8px;
+        }
+        .cast-card p {
+          margin-top: 6px;
+          font-size: 13px;
+          color: #555;
+          word-break: keep-all; /* 이름이 길어도 예쁘게 줄바꿈 */
+        }
+      </style>
+
+      <div class="cast-card" onclick="openModal('film1')"><img src="film1.jpg" alt="영화1"><p>영화1</p></div>
+      <div class="cast-card" onclick="openModal('film2')"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
+      <div class="cast-card" onclick="openModal('film3')"><img src="film3.jpg" alt="영화3"><p>영화3</p></div>
+      <div class="cast-card" onclick="openModal('film4')"><img src="film4.jpg" alt="영화4"><p>영화4</p></div>
+      <div class="cast-card" onclick="openModal('film5')"><img src="film5.jpg" alt="영화5"><p>영화5</p></div>
+      <div class="cast-card" onclick="openModal('film2')"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
+      <div class="cast-card" onclick="openModal('film2')"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
+      <div class="cast-card" onclick="openModal('film2')"><img src="film2.jpg" alt="영화2"><p>영화2</p></div>
+    </div>
+  </div>
+</div>
     <!-- 특전 -->
     <div class="tab-content" id="gift-tab-content">
   <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
