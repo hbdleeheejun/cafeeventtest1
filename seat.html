@@ -6,70 +6,68 @@
 <style>
   body {
     margin:0; font-family:Pretendard, Arial, sans-serif;
-    background:#f4f7f6; display:flex; justify-content:center; align-items:center;
+    background:#f0f2f5; display:flex; justify-content:center; align-items:center;
     min-height:100vh;
   }
   .seat-container {
     background:#fff; padding:40px; border-radius:20px;
-    text-align:center; max-width:960px; box-shadow: 0 10px 30px rgba(36, 66, 107, 0.1);
+    text-align:center; max-width:960px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
   }
-  h2 { margin-bottom:24px; color: #24426b; font-weight: 800; }
+  h2 { margin-bottom:24px; color: #1a304d; font-weight: 800; }
   .stage { 
-    background:#e0e3e9; font-weight:700; padding:18px;
-    border-radius:10px; margin:0 auto 30px auto; width:50%; color: #666; font-size: 14px;
+    background:#334155; font-weight:700; padding:18px;
+    border-radius:8px; margin:0 auto 30px auto; width:60%; color: #fff; font-size: 14px;
+    letter-spacing: 2px;
   }
   .seat-grid {
-    display:grid; grid-template-columns: repeat(12, 30px);
-    gap:12px; justify-content:center; margin-bottom:30px;
-  }
-  .seat {
-    width:30px; height:30px; border-radius:50%;
-    background:#e2e8f0; cursor:pointer; transition: all 0.3s ease;
-    position: relative; border: 1px solid transparent;
-  }
-
-  /* ✨ [수정] H22 선택 시 확실하게 색 변화 (진한 남색 + 부드러운 테두리) */
-  .seat.selected { 
-    background:#24426b !important; 
-    transform: scale(1.15); 
-    border: 2px solid rgba(255, 255, 255, 0.8) !important;
-    box-shadow: 0 4px 10px rgba(36, 66, 107, 0.3);
-    z-index: 5;
+    display:grid; grid-template-columns: repeat(12, 32px);
+    gap:10px; justify-content:center; margin-bottom:30px;
   }
   
-  /* 비활성화된 좌석 (회색) */
+  /* [1. 기본 좌석 - 흰색에 진한 테두리로 구분감 업] */
+  .seat {
+    width:32px; height:32px; border-radius:50%;
+    background:#ffffff; cursor:pointer; transition: all 0.2s ease;
+    position: relative; border: 2px solid #cbd5e1; /* 기본 테두리 */
+  }
+
+  /* [2. 내가 선택한 좌석 - 아주 진한 남색으로 확실하게] */
+  .seat.selected { 
+    background:#1a304d !important; 
+    border-color: #1a304d !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(26, 48, 77, 0.4);
+  }
+  .seat.selected::after {
+    content: '✓'; color: white; font-size: 16px; font-weight: bold;
+    position: absolute; top:50%; left:50%; transform: translate(-50%, -50%);
+  }
+  
+  /* [3. 비활성화된 좌석 - 아주 연한 회색으로 배경처럼] */
   .seat.disabled { 
-    background:#cbd5e1 !important; 
+    background:#f1f5f9 !important; 
+    border-color: #e2e8f0 !important;
     cursor:default; 
-    border: none !important; 
-    transform: scale(1) !important;
-    box-shadow: none !important;
-    animation: none !important;
   }
 
-  /* ✨ [수정] 마지막 한 자리 강조 디자인 (차분한 블루 + 아주 느린 깜빡임) */
+  /* [4. 마지막 한 자리 강조 - 하늘색 테두리 + 부드러운 깜빡임] */
   .seat.last-glow:not(.disabled):not(.selected) {
-    background-color: #ffffff !important;
-    border: 2px solid #a3b8d9 !important; /* 차분한 연블루 테두리 */
-    box-shadow: 0 0 10px rgba(36, 66, 107, 0.2); /* 은은하고 어두운 광채 */
-    animation: slow-fade 3s infinite ease-in-out !important; /* 3초 주기로 아주 느리게 */
-    z-index: 10;
+    background-color: #e0f2fe !important; /* 연한 하늘색 바탕 */
+    border: 3px solid #38bdf8 !important; /* 확실한 하늘색 테두리 */
+    animation: gentle-pulse 2s infinite ease-in-out !important;
   }
 
-  /* ✨ [수정] 눈 안 아픈 아주 느린 애니메이션 */
-  @keyframes slow-fade {
-    0% { opacity: 0.5; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.08); }
-    100% { opacity: 0.5; transform: scale(1); }
+  @keyframes gentle-pulse {
+    0% { transform: scale(1); border-color: #38bdf8; }
+    50% { transform: scale(1.1); border-color: #0ea5e9; }
+    100% { transform: scale(1); border-color: #38bdf8; }
   }
 
-  .selected-seat { font-weight:700; margin-bottom:30px; color: #24426b; min-height: 24px; font-size: 16px; }
+  .selected-seat { font-weight:700; margin-bottom:30px; color: #1a304d; font-size: 18px; }
   .reserve-btn {
-    padding:14px 28px; background:#24426b; color:#fff;
+    padding:16px 40px; background:#1a304d; color:#fff;
     border:none; border-radius:12px; cursor:pointer; font-size:16px; font-weight:700;
-    transition: background 0.2s;
   }
-  .reserve-btn:hover { background:#1e3560; }
 </style>
 </head>
 <body>
@@ -94,7 +92,6 @@
   const hCol = 6;
   const seats = [];
 
-  // 좌석 생성
   for(let r=1; r<=rows; r++){
     for(let c=1; c<=cols; c++){
       const seat = document.createElement('div');
@@ -109,24 +106,15 @@
 
       seat.addEventListener('click', () => {
         if(seat.classList.contains('disabled')) return;
-
         if(r === hRow && c === hCol){
-          // 기존 선택된 게 있다면 해제
           document.querySelectorAll('.seat.selected').forEach(s => s.classList.remove('selected'));
-          
-          // ✨ [수정] H22 자리에 확실하게 'selected' 클래스 추가
           seat.classList.add('selected');
-          
-          // ✨ [수정] 선택 시 강조 광채(`last-glow`)는 삭제 (선택 표시가 더 중요하니까요)
-          seat.classList.remove('last-glow');
-
           selectedSeat.textContent = '선택 좌석: H22';
         } else {
           alert('[이미 선택된 좌석입니다.]');
           animateSeatsRandom();
         }
       });
-
       seats.push(seat);
       seatGrid.appendChild(seat);
     }
@@ -147,7 +135,7 @@
     seatsToAnimate.forEach((s, idx) => {
       setTimeout(()=> {
         s.classList.add('disabled');
-        s.classList.remove('last-glow'); // 회색으로 변할 땐 광채 삭제
+        s.classList.remove('last-glow');
         checkLastOne();
       }, idx * 15);
     });
@@ -155,7 +143,6 @@
 
   function checkLastOne() {
     const availableSeats = seats.filter(s => !s.classList.contains('disabled'));
-    // 딱 1개(H22)만 남았고, 아직 선택 안 했을 때만 차분한 강조
     if (availableSeats.length === 1 && !availableSeats[0].classList.contains('selected')) {
       availableSeats[0].classList.add('last-glow');
     }
@@ -169,6 +156,5 @@
     }
   }
 </script>
-
 </body>
 </html>
